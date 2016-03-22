@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-body {
-    text-align: center;
-=======
 html {
   background-color: black;
 }
@@ -33,5 +29,4 @@ li {
   border: 5px solid;
   border-radius: 25px;
   background-color: rgb(88, 186, 30);
->>>>>>> master
 }
