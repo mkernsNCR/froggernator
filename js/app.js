@@ -3,30 +3,11 @@ var speedNumber = 1;
 var count = 0;
 
 function gameOver() {
-    alert("Congratulations, You Win!")
+    alert("Congratulations, You Win!");
+    document.write("Game Over");
 };
 
 $("#count").text(count);
-
-function updateCount(str, player) {
-  console.log(player);
-  if(str == "pass") {
-    console.log("Passed count before is " + count);
-    count++;
-    console.log("Passed count after is " + count);
-    count < 15 ? player.resetPlayer() : gameOver();
-  }
-  else if(str == "fail") {
-    count--;
-    player.resetPlayer();
-  }
-  else {
-    //nothing
-  }
-
-  $("#count").text(count);
-
-};
 
 var Enemy = function(startX, startY, speed) {
     // Variables applied to each of our instances go here,
@@ -54,9 +35,12 @@ Enemy.prototype.update = function(dt) {
   var enemyYTopMax = this.y - 65;
   var enemyYBottomMax = this.y + 65;
 
-  if(player.x > enemyXleftMax && player.x < enemyXRightMax && player.y > enemyYTopMax && player.y < enemyYBottomMax) {
-    updateCount("fail", player);
+  if(player.x > enemyXleftMax && player.x < enemyXRightMax && player.y > enemyYTopMax &&        player.y < enemyYBottomMax) {
+    //console.log("Passed count before is " + count);
+    count--;
+    //console.log("Passed count after is " + count);
     player.resetPlayer();
+    $("#count").text(count);
   }
 
 };
@@ -114,7 +98,12 @@ Player.prototype.handleInput = function(keyInput) {
     var player = this;
     if(this.y <= 100) {
       console.log("Reached top");
-      updateCount("pass", player);
+      count++;
+      if(count == 15) {
+        gameOver();
+      }
+      player.resetPlayer();
+      $("#count").text(count);
     }
     else {
       this.y -= moveUpDown;
@@ -160,7 +149,6 @@ Player.prototype.HorizontalCheck = function(leftWallState, rightWallState) {
 // Place all enemy objects in an array called allEnemies
 
 var allEnemies = [];
-
 for(var i = 0; i < 4; i++){
   var aSpeed = Math.floor(Math.random() * 2 + 1) * 15;
   allEnemies.push(new Enemy(-80, 60 + 80 * i, aSpeed));
@@ -174,7 +162,7 @@ var player = new Player();
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-  console.log(e);
+  //console.log(e);
     var allowedKeys = {
         37: 'left',
         38: 'up',
